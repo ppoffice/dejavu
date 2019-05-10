@@ -1,0 +1,31 @@
+language: android
+sudo: required
+jdk: oraclejdk8
+
+android:
+  components:
+    - tools
+    - platform-tools
+
+install:
+  - echo y | sdkmanager "ndk-bundle"
+  - echo y | sdkmanager "cmake;3.10.2.4988404"
+  - echo y | sdkmanager "lldb;3.1"
+
+cache:
+  directories:
+    - "/usr/local/android-sdk/ndk-bundle/"
+    - "/usr/local/android-sdk/cmake/"
+    - "/usr/local/android-sdk/lldb/"
+
+script:
+  - /usr/local/android-sdk/ndk-bundle/ndk-build
+  - cd out && zip ../binaries.zip ./**/* && cd ..
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  file: binaries.zip
+  skip_cleanup: true
+  on:
+    tags: true
