@@ -11,17 +11,17 @@
 
 #define DEVICE_PATH "/dev/input"
 
-static FILE *in;
-static char **devices;
-static int *device_fds;
+static FILE* in;
+static char** devices;
+static int* device_fds;
 static int device_count = 0;
 
-static void usage(char *name) {
+static void usage(char* name) {
     fprintf(stderr, "Usage: %s input\n", name);
 }
 
-static void trim(char *s) {
-    char *p = s;
+static void trim(char* s) {
+    char* p = s;
     int l = strlen(p);
 
     while (isspace(p[l - 1])) p[--l] = 0;
@@ -47,10 +47,10 @@ static void sleep_to(long long int target_time) {
     }
 }
 
-static int open_device(const char *device) {
+static int open_device(const char* device) {
     int fd;
-    char **devices_tmp;
-    int *device_fds_tmp;
+    char** devices_tmp;
+    int* device_fds_tmp;
     char filename[256];
 
     for (int i = 0; i < device_count; i++) {
@@ -59,7 +59,7 @@ static int open_device(const char *device) {
         }
     }
 
-    devices_tmp = realloc(devices, sizeof(char *) * (device_count + 1));
+    devices_tmp = realloc(devices, sizeof(char*) * (device_count + 1));
     device_fds_tmp = realloc(device_fds, sizeof(int) * (device_count + 1));
     if (devices_tmp == NULL || device_fds_tmp == NULL) {
         fprintf(stderr, "out of memory\n");
@@ -90,14 +90,14 @@ static void close_devices() {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     int fd;
     int read;
     size_t len;
-    char *line;
-    char *line_trimed;
-    char *device;
-    const char *in_file;
+    char* line;
+    char* line_trimed;
+    char* device;
+    const char* in_file;
     long long int interval;
     long long int start_time;
     struct input_event event;
